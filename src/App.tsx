@@ -1,81 +1,34 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, EventHandler, FC, FormEvent, useState } from 'react';
+import Button from './components/Button';
+import Input from './components/Input';
+import { generateRandomCode, isValidUrl } from './lib/util';
 
 import './style.css';
 
-const db = [
-  {
-    origin: 'http://google.com',
-    shortenCode: 'AAHVFT',
-  },
-  {
-    origin: 'http://yahoo.com',
-    shortenCode: 'EGTSHF',
-  },
-];
 
-const generateRandomCode = () => {
-  const letters =
-    'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9';
-  const cookedLetters = letters.split(',');
-
-  let random = '';
-  for (let i = 0; i <= 6; i++) {
-    const randomIndex = Math.floor(Math.random() * cookedLetters.length);
-    random += cookedLetters[randomIndex];
-  }
-
-  return random;
-};
 
 export const App = () => {
-  const [url, setUrl] = useState('a');
-  const [shortenUrlCode, setShortenUrlCode] = useState('');
+  const [inputUrl, setInputUrl] = useState('a');
+  const [outputCode, setOutputCode] = useState('');
 
-  const isValidUrl = (url) => {
-    const regex =
-      /^((https?|ftp|http):\/\/)?([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|net|org|biz|info|name|pro|coop|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
+  const [validationMessage,setValidationMessage] = useState('')
 
-    return regex.test(url);
-  };
 
   const shorternUrl = () => {
-    if (url === '' || !isValidUrl(url)) {
-      alert('URL REQUIRED or INVALID URL');
+    if (inputUrl === '' || !isValidUrl(inputUrl)) {
+      setValidationMessage('URL REQUIRED or INVALID URL');
     } else {
       const code = generateRandomCode();
-      setShortenUrlCode(code);
+      setOutputCode(code);
     }
   };
 
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputUrl(e.target.value)
+  }
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          gap: '10px',
-          justifyContent: 'center',
-        }}
-      >
-        <div className="coolinput">
-          <label htmlFor="input" className="text">
-            URL:
-          </label>
-          <input
-            type="text"
-            placeholder="Copy URL here..."
-            name="input"
-            value={url}
-            className="input"
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </div>
-        <div>
-          <button className="button-18" role="button" onClick={shorternUrl}>
-            Shortern URL
-          </button>
-        </div>
-      </div>
+      <div style={{textAlign:'center'}}>
 
       <div
         style={{
@@ -84,32 +37,32 @@ export const App = () => {
           gap: '10px',
           justifyContent: 'center',
         }}
-      >
-        <div className="coolinput">
-          <label htmlFor="input" className="text">
-            Shorten URL:
-          </label>
-          <input
-            type="text"
-            placeholder="Your URL here..."
-            name="shorten"
-            value={shortenUrlCode}
-            className="input"
-            disabled
-          />
-        </div>
+        >
+        <Input title='URL' url={inputUrl} handleOnChange={handleOnChange} />
         <div>
-          <button
-            className="button-18"
-            role="button"
-            onClick={() => navigator.clipboard.writeText('asdasd')}
-          >
-            Copy URL
-          </button>
+          <Button handleOnClick={shorternUrl} title='Shorten URL' />
         </div>
       </div>
+      <p style={{color:'red'}}>{validationMessage}</p>
 
-      
+        </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          gap: '10px',
+          justifyContent: 'center',
+        }}
+      >
+        <Input title='Shorten URL' url={outputCode} />
+
+        <div>
+          <Button handleOnClick={() => navigator.clipboard.writeText(outputCode)} title='Copy URL' />
+        </div>
+      </div>
+      <p>{window.location.href}</p>
+
+
     </div>
   );
 };
