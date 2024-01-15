@@ -2,27 +2,29 @@ import * as React from "react";
 import { useState } from "react";
 
 type InputProps = {
-    title:string,
-    url:string,
+  label:string,
+  inputValue:string,
     handleOnChange?: React.ChangeEventHandler 
 }
 
-const Input = ({title, url, handleOnChange}:InputProps)=>{
+const Input = ({label, inputValue, handleOnChange,...props}:InputProps)=>{
     // const [url, setUrl] = useState('a');
 
 
 
 return  <div className="coolinput">
 <label htmlFor="input" className="text">
-  {title}
+  {label}
 </label>
 <input
   type="text"
   placeholder="Copy URL here..."
   name="input"
-  value={url}
+  value={inputValue}
   className="input"
   onChange={handleOnChange}
+  {...props}
+  
 />
 </div>
 }
