@@ -1,6 +1,5 @@
 import { db } from '../firebase/firebaseConfig'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
-import { useId } from 'react';
 
 export const generateRandomCode = () => {
   const letters =
@@ -19,7 +18,7 @@ export const generateRandomCode = () => {
 
 export const isValidUrl = (url: string) => {
   const regex =
-    /^((https?|ftp|http):\/\/)?([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|net|org|biz|info|name|pro|coop|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
+    /^(https?|ftp|http):\/\/?([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|net|org|biz|info|name|pro|coop|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
 
   return regex.test(url);
 };

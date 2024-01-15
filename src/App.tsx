@@ -1,4 +1,4 @@
-import { ChangeEvent, EventHandler, FC, FormEvent, useState } from 'react';
+import { ChangeEvent,  useState } from 'react';
 import Button from './components/Button';
 import Input from './components/Input';
 import { generateRandomCode, isValidUrl } from './lib/util';
@@ -59,7 +59,7 @@ export const App = () => {
       </div>
       <CombinedInputBtn readOnly label='Output' btnTitle='Copy URL' inputValue={outputCode} inputOnChange={null} buttonOnclick={() => navigator.clipboard.writeText(outputCode)} />
       <p>{window.location.href}</p>
-      <CombinedInputBtn label='codeToURL' btnTitle='Retrieve URL' inputOnChange={(e) => setRetrievedURL(e.target.value)} buttonOnclick={retrieveURL} inputValue={retrievedURL} />
+      
 
     </div>
   );
